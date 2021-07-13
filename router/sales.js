@@ -5,7 +5,7 @@ const Joi = require('joi');
 
 const Sale = mongoose.model('Sale'
   ,new mongoose.Schema({
-    customerName: {
+    name: {
       type: String, 
       required: true,
     },
@@ -17,8 +17,8 @@ const Sale = mongoose.model('Sale'
       type: Number,
       required: true,
     },
-    pruduct: {
-      type: Array,
+    product: {
+      type: String,
       required: true,
     },
     transactionType: {
@@ -37,9 +37,8 @@ router.post('/',async (req, res) => {
   if(error) return res.status(404)
     .send(error.details[0].message); 
 
-  
   let sale = new Sale({
-    customerName: req.body.customerName,
+    name: req.body.name,
     quantity: req.body.quantity,
     amount: req.body.amount,
     product: req.body.product,
@@ -58,7 +57,8 @@ router.put('/:id', async (req, res) => {
 
   const sale = await Sale
     .findByIdAndUpdate(req.params.id, {
-      customerName: req.body.customerName,                quantity: req.body.quantity,
+      name: req.body.name,             
+      quantity: req.body.quantity,
       amount: req.body.amount,
       product: req.body.product,
       transactionType: req.body.transactionType,
@@ -90,7 +90,7 @@ router.get('/:id', async (req, res) => {
 
 function validateSale(sale){
   const schema = Joi.object({
-    customerName: Joi.string().required(),
+    name: Joi.string().required(),
     quantity: Joi.number().integer().required(),
     amount: Joi.number().integer().required(),
     product: Joi.string().required(),
@@ -101,3 +101,5 @@ function validateSale(sale){
 }
 
 module.exports = router;
+
+
