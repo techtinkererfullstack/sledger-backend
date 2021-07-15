@@ -1,0 +1,7 @@
+{
+"name": "bdjobs",
+"amount" : 1000,
+"quantity" : 200,
+"transactionType": "cash",
+"product": ["mango", "banana", "orange"]
+}
