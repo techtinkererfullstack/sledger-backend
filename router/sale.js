@@ -1,4 +1,5 @@
 const { Sale, validate } = require("../model/sales");
+const { Customer} = require("../model/customers")    ;
 const express = require("express");
 const router = express.Router();
 
@@ -11,8 +12,12 @@ router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
 
+const customer = await Customer.findById(req.body.customerId);
+  if (!customer) return res.status(404).send("Invalid customer");
+
+
   let sale = new Sale({
-    name: req.body.name,
+    customer: req.body.customerId,
     quantity: req.body.quantity,
     amount: req.body.amount,
     product: req.body.product,
@@ -21,16 +26,22 @@ router.post("/", async (req, res) => {
 
   sale = await sale.save();
   res.send(sale);
+  console.log(sale);
 });
 
 router.put("/:id", async (req, res) => {
   const { error } = validate(req.body);
-  if (error) return res.status(404).send(error.details[0].message);
+  if (error) 
+    return res.status(404).send(error.details[0].message);
+
+  const customer = await Customer.findById(req.body.customerId);         
+
+  if (!customer) return res.status(404).send("Inaalid customer");
 
   const sale = await Sale.findByIdAndUpdate(
     req.params.id,
     {
-      name: req.body.name,
+      customer: req.body.customerId,
       quantity: req.body.quantity,
       amount: req.body.amount,
       product: req.body.product,

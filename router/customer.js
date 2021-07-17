@@ -15,6 +15,7 @@ router.post("/", async (req, res) => {
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
     address: req.body.address,
+    location: req.body.location,
   });
 
   customer = await customer.save();
@@ -31,6 +32,7 @@ router.put("/:id", async (req, res) => {
       name: req.body.name,
       phoneNumber: req.body.phoneNumber,
       address: req.body.address,
+      location: req.body.location
     },
     { new: true }
   );
