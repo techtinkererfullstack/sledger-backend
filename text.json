@@ -1,0 +1,52 @@
+{
+  "customer": {
+    "name": "bdjobs",
+    "phoneNumber": "01944722789",
+    "address":"barishal plaza, 5th floor",
+    "location":"barishal"
+  },
+"amount" : 1000,
+"quantity" : 200,
+"transactionType": "cash",
+"product": ["mango", "banana", "orange"]
+}
+
+
+
+{"customer": { "name": "bdjobs", "phoneNumber": "01944722789","address":"barishal plaza, 5th floor", "location":"barishal" },"amount" : 1000,"quantity" : 200,"transactionType": "cash","product": ["mango", "banana", "orange"] }
+
+{
+  "customer": "60f29f9de71a3349fd4e97b7",
+"amount" : 1000,
+"quantity" : 200,
+"transactionType": "cash",
+"product": ["mango", "banana", "orange"]
+}
+
+{
+    "customer": {
+        "_id": "60f29f9de71a3349fd4e97b7",
+        "name": "top tech"
+    },
+    "amount": 1000,
+    "quantity": 200,
+    "transactionType": "cash",
+    "product": [
+        "mango",
+        "banana",
+        "orange"
+    ]
+}
+
+
+{
+    "customerId": "60f29f9de71a3349fd4e97b7",
+    "amount": 1000,
+    "quantity": 200,
+    "transactionType": "cash",
+    "product": [
+        "mango",
+        "banana",
+        "orange"
+    ]
+}
