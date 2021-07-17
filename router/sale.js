@@ -4,7 +4,10 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const sales = await Sale.find().sort("name");
+  const sales = await Sale.find()
+    .sort("name")
+    .select('name customer')
+    .populate("customer", 'name location -_id');
   res.send(sales);
 });
 
