@@ -9,14 +9,14 @@ const Purchase = mongoose.model(
       default: Date.now,
     },
     supplier: {
-      type:  new mongoose.Schema({
-          name: {
-            type: String,
-            required: true,
-            minlength: 5,
-            maxlength: 200,
-          },
-        }),
+      type: new mongoose.Schema({
+        name: {
+          type: String,
+          required: true,
+          minlength: 5,
+          maxlength: 200,
+        },
+      }),
       required: true,
     },
     quantity: {
