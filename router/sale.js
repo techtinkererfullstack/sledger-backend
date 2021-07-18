@@ -6,8 +6,8 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const sales = await Sale.find()
     .sort("name")
-    .select('name customer')
-    .populate("customer", 'name location -_id');
+    .populate("customer", 'name location -_id')
+    .select('customer name')
   res.send(sales);
 });
 
@@ -39,7 +39,7 @@ router.put("/:id", async (req, res) => {
 
   const customer = await Customer.findById(req.body.customerId);         
 
-  if (!customer) return res.status(404).send("Inaalid customer");
+  if (!customer) return res.status(404).send("Invalid customer");
 
   const sale = await Sale.findByIdAndUpdate(
     req.params.id,
