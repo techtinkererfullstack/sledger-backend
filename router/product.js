@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const product = await Product.findById(req.params.id);
-  if (!product) return res.status(404).send("id not found...");
+  if (!product) return res.status(404).send("Product not found...");
   res.send(product);
 });
 
@@ -19,6 +19,8 @@ router.post("/", async (req, res) => {
 
   let product = new Product({
     name: req.body.name,
+    group: req.body.group,
+    inStock: req.body.inStock,
   });
 
   product = await product.save();

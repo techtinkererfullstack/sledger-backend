@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const sales = require("./router/sale");
 const customers = require("./router/customer");
 const products = require("./router/product");
+const purchases = require("./router/purchase");
+const suppliers = require("./router/supplier");
 const app = express();
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
@@ -26,6 +28,8 @@ app.get("/", (req, res) => {
 app.use("/api/sales", sales);
 app.use("/api/customers", customers);
 app.use("/api/products", products);
+app.use("/api/purchases", purchases);
+app.use("/api/suppliers", suppliers);
 
 const port = 5050;
 app.listen(port, () => console.log(`Listening onport ${port}...`));

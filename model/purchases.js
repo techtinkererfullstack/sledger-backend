@@ -1,17 +1,27 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const { Customer } = require("./customers");
 
-const Sale = mongoose.model(
-  "Sale",
+const Purchase = mongoose.model(
+  "Purchase",
   new mongoose.Schema({
-    customer: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Customer",
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+    supplier: {
+      type:  new mongoose.Schema({
+          name: {
+            type: String,
+            required: true,
+            minlength: 5,
+            maxlength: 200,
+          },
+        }),
       required: true,
     },
     quantity: {
       type: Number,
+      default: 0,
       required: false,
     },
     amount: {
@@ -29,17 +39,17 @@ const Sale = mongoose.model(
   })
 );
 
-function validateSale(sale) {
+function validatePurchase(purchase) {
   const schema = Joi.object({
-    customerId: Joi.objectId().required(),
+    supplierId: Joi.string().required(),
     quantity: Joi.number().integer().required(),
     amount: Joi.number().integer().required(),
     product: Joi.array().items(Joi.string()).required(),
     transactionType: Joi.string().required(),
   });
 
-  return schema.validate(sale);
+  return schema.validate(purchase);
 }
 
-exports.Sale = Sale;
-exports.validate = validateSale;
+exports.Purchase = Purchase;
+exports.validate = validatePurchase;
