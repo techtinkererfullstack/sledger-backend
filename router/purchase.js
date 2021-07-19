@@ -17,6 +17,8 @@ router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
 
+  if(!mongoose.Type.ObjectId.isValid(red.body.supplierId)) return res.status(400).send("Invalid supplier Id...")
+
 const supplier = await Supplier.findById(req.body.supplierId);
  if (!supplier) return res.status(404).send("supplier id not valid...");
 

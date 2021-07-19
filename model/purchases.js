@@ -41,7 +41,7 @@ const Purchase = mongoose.model(
 
 function validatePurchase(purchase) {
   const schema = Joi.object({
-    supplierId: Joi.string().required(),
+    supplierId: Joi.objectId().required(),
     quantity: Joi.number().integer().required(),
     amount: Joi.number().integer().required(),
     product: Joi.array().items(Joi.string()).required(),
