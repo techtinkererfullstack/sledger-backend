@@ -2,12 +2,12 @@ const { Customer, validate } = require("../model/customers");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const customer = await Customer.find();
     res.send(customer);
-  } catch (error) {
-    res.status(500).send("somethimg went wrong");
+  } catch (ex) {
+    next(ex);
   }
 });
 

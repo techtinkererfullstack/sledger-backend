@@ -1,3 +1,4 @@
+const error = require("./middleware/error");
 const config = require("config");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -17,7 +18,6 @@ if (!config.get("jwtPrivateKey")) {
   process.exit(1);
 }
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose
@@ -25,7 +25,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
-    useCreateIndex: true
+    useCreateIndex: true,
   })
   .then(() => console.log("connected to mongo db..."))
   .catch((err) => console.error("could not connect to mongodb...1", err));
@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
   res.send("sledger home page...");
 });
 
+app.use(express.json());
 app.use("/api/sales", sales);
 app.use("/api/customers", customers);
 app.use("/api/products", products);
@@ -41,6 +42,7 @@ app.use("/api/purchases", purchases);
 app.use("/api/suppliers", suppliers);
 app.use("/api/users", users);
 app.use("/api/auths", auths);
+app.use(error);
 
 const port = 5050;
 app.listen(port, () => console.log(`Listening onport ${port}...`));
