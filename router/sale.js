@@ -1,4 +1,6 @@
+
 const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 const { Sale, validate } = require("../model/sales");
 const { Customer} = require("../model/customers")    ;
 const express = require("express");
@@ -33,7 +35,7 @@ const customer = await Customer.findById(req.body.customerId);
   console.log(sale);
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",[auth, admin], async (req, res) => {
   const { error } = validate(req.body);
   if (error) 
     return res.status(404).send(error.details[0].message);
@@ -59,7 +61,7 @@ router.put("/:id", async (req, res) => {
   res.send(sale);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",  async (req, res) => {
   const sale = await Sale.findByIdAndDelete(req.params.id);
 
   if (!sale) return res.status(404).send("id not found...");
