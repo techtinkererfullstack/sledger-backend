@@ -3,8 +3,12 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const customer = await Customer.find();
-  res.send(customer);
+  try {
+    const customer = await Customer.find();
+    res.send(customer);
+  } catch (error) {
+    res.status(500).send("somethimg went wrong");
+  }
 });
 
 router.post("/", async (req, res) => {
@@ -32,7 +36,7 @@ router.put("/:id", async (req, res) => {
       name: req.body.name,
       phoneNumber: req.body.phoneNumber,
       address: req.body.address,
-      location: req.body.location
+      location: req.body.location,
     },
     { new: true }
   );
