@@ -1,3 +1,5 @@
+const winston = require("winston");
+require("winston-mongodb");
 require("express-async-errors");
 const error = require("./middleware/error");
 const config = require("config");
@@ -13,6 +15,12 @@ const auths = require("./router/auth");
 const app = express();
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
+
+winston.add(winston.transports.File, { filename: "logfile.log" });
+winston.add(winston.transports.MongoDB, {
+  db: "mongodb://localhost/s-ledger",
+  level: "info",
+});
 
 if (!config.get("jwtPrivateKey")) {
   return console.error("FATAL ERROR: jwt token is not defined");

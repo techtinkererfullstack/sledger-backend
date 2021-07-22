@@ -15,6 +15,7 @@ const router = express.Router();
 );*/
 
 router.get("/", async (req, res) => {
+  throw new Error("could not find customers");
   const customer = await Customer.find();
   res.send(customer);
 });
