@@ -1,14 +1,22 @@
+//const asyncMiddleware = require("../middleware/async");
+
 const { Customer, validate } = require("../model/customers");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
-  try {
+//router.get("/another", (req, res, next) => {});
+
+/*router.get(
+  "/",
+  asyncMiddleware(async (req, res) => {
     const customer = await Customer.find();
     res.send(customer);
-  } catch (ex) {
-    next(ex);
-  }
+  })
+);*/
+
+router.get("/", async (req, res) => {
+  const customer = await Customer.find();
+  res.send(customer);
 });
 
 router.post("/", async (req, res) => {
