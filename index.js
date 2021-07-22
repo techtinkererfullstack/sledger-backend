@@ -16,11 +16,18 @@ const app = express();
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 
+process.on("uncaughtException", (ex) => {
+  console.log("WE GOT AN UNCOUGHT EXCEPTION");
+  winston.error(ex.message);
+});
+
 winston.add(winston.transports.File, { filename: "logfile.log" });
 winston.add(winston.transports.MongoDB, {
   db: "mongodb://localhost/s-ledger",
   level: "info",
 });
+
+throw new Error("intentional error");
 
 if (!config.get("jwtPrivateKey")) {
   return console.error("FATAL ERROR: jwt token is not defined");
