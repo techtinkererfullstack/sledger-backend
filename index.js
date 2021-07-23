@@ -1,20 +1,14 @@
 const winston = require("winston");
 require("winston-mongodb");
 require("express-async-errors");
-const error = require("./middleware/error");
 const config = require("config");
 const express = require("express");
 const mongoose = require("mongoose");
-const sales = require("./router/sale");
-const customers = require("./router/customer");
-const products = require("./router/product");
-const purchases = require("./router/purchase");
-const suppliers = require("./router/supplier");
-const users = require("./router/user");
-const auths = require("./router/auth");
 const app = express();
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
+
+require("./startup/routes")(app);
 
 //first way
 // process.on("uncaughtException", (ex) => {
@@ -69,16 +63,6 @@ mongoose
 app.get("/", (req, res) => {
   res.send("sledger home page...");
 });
-
-app.use(express.json());
-app.use("/api/sales", sales);
-app.use("/api/customers", customers);
-app.use("/api/products", products);
-app.use("/api/purchases", purchases);
-app.use("/api/suppliers", suppliers);
-app.use("/api/users", users);
-app.use("/api/auths", auths);
-app.use(error);
 
 const port = 5050;
 app.listen(port, () => console.log(`Listening onport ${port}...`));
