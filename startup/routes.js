@@ -10,6 +10,7 @@ const express = require("express");
 
 module.exports = function (app) {
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
   app.use("/api/sales", sales);
   app.use("/api/customers", customers);
   app.use("/api/products", products);

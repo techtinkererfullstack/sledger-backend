@@ -13,3 +13,7 @@
 {"level":"error","message":"intentional error","timestamp":"2021-07-22T18:21:01.513Z"}
 {"level":"error","message":"intentional error","timestamp":"2021-07-22T18:21:12.029Z"}
 {"level":"error","message":"intentional error","timestamp":"2021-07-22T18:21:16.112Z"}
+{"level":"info","message":"connected to mongo db...","timestamp":"2021-07-23T06:21:23.384Z"}
+{"level":"info","message":"connected to mongo db...","timestamp":"2021-07-23T06:21:49.357Z"}
+{"level":"info","message":"connected to mongo db...","timestamp":"2021-07-23T06:24:57.231Z"}
+{"level":"info","message":"connected to mongo db...","timestamp":"2021-07-23T06:25:45.060Z"}
