@@ -3,6 +3,7 @@
 const { Customer, validate } = require("../model/customers");
 const express = require("express");
 const router = express.Router();
+const mongoose = require('mongoose');
 
 //router.get("/another", (req, res, next) => {});
 
@@ -63,6 +64,8 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).send('invalid id')
+  
   const customer = await Customer.findById(req.params.id);
   if (!customer) return res.status(404).send("id not found...");
   res.send(customer);

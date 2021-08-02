@@ -1,13 +1,16 @@
 const winston = require("winston");
 const mongoose = require("mongoose");
+const config = require("config");
 
 module.exports = function () {
+  const db = config.get("db");
+
   mongoose
-    .connect(`mongodb://localhost/s-ledger`, {
+    .connect(db, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
       useCreateIndex: true,
     })
-    .then(() => winston.info("connected to mongo db..."));
+    .then(() => winston.info(`connected to mongo ${db}...`));
 };

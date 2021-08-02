@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "jest --watchAll --verbose"
   },
   "keywords": [],
   "author": "shafe",
@@ -26,5 +26,8 @@
     "nodemon": "^2.0.12",
     "winston": "^2.4.0",
     "winston-mongodb": "^3.0.0"
+  },
+  "devDependencies": {
+    "supertest": "^3.0.0"
   }
 }
