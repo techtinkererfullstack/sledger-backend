@@ -8,7 +8,7 @@ const Sale = mongoose.model(
     customer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Customer",
-      required: true,
+      required: false,
     },
     quantity: {
       type: Number,
@@ -31,7 +31,7 @@ const Sale = mongoose.model(
 
 function validateSale(sale) {
   const schema = Joi.object({
-    customerId: Joi.objectId().required(),
+    // customerId: Joi.objectId().required(),
     quantity: Joi.number().integer().required(),
     amount: Joi.number().integer().required(),
     product: Joi.array().items(Joi.string()).required(),
