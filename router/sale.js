@@ -1,4 +1,4 @@
-const validateObjectid = require('../middleware/validateObjectId')
+const validateObjectid = require("../middleware/validateObjectId");
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
@@ -15,23 +15,22 @@ router.get("/", async (req, res) => {
   res.send(sales);
 });
 
-router.get("/:id",validateObjectid, async (req, res) => {
+router.get("/:id", validateObjectid, async (req, res) => {
   const sale = await Sale.findById(req.params.id);
   if (!sale) return res.status(404).send("id not found...");
 
   res.send(sale);
-
 });
 
 router.post("/", auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
 
-  const customer = await Customer.findById(req.body.customerId);
-  if (!customer) return res.status(404).send("Invalid customer");
+  // const customer = await Customer.findById(req.body.customerId);
+  //if (!customer) return res.status(404).send("Invalid customer");
 
   let sale = new Sale({
-    customer: req.body.customerId,
+    customer: req.body.customer,
     quantity: req.body.quantity,
     amount: req.body.amount,
     product: req.body.product,

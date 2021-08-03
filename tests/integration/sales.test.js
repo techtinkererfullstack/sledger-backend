@@ -1,7 +1,6 @@
 const request = require("supertest");
 const { Sale } = require("../../model/sales");
 const mongoose = require("mongoose");
-const { Customer } = require("../../model/customers");
 const { User } = require("../../model/users");
 let server;
 
@@ -12,7 +11,6 @@ describe("api/sales", () => {
   afterEach(async () => {
     server.close();
     await Sale.deleteMany({});
-    await Customer.deleteMany({});
   });
 
   describe("GET /", () => {
@@ -33,18 +31,9 @@ describe("api/sales", () => {
 
   describe("GET /:id", () => {
     it("should return a sale if valid id is passed", async () => {
-      const mkCustomer = new Customer({
-        name: "aaaaa",
-        phoneNumber: 12345678999,
-        address: "a",
-        location: "a",
-      });
-
-      await mkCustomer.save();
-
       const sale = new Sale({
         product: ["mango", "banana", "orange"],
-        customer: mkCustomer._id,
+        customer: "shafe",
         quantity: 200,
         amount: 1000,
         transactionType: "cash",
@@ -92,21 +81,12 @@ describe("api/sales", () => {
     it("should save the sale if it is valid", async () => {
       const token = new User().generateAuthToken();
 
-      const mkCustomer = new Customer({
-        name: "aaaaa",
-        phoneNumber: 12345678999,
-        address: "a",
-        location: "a",
-      });
-
-      await mkCustomer.save();
-
       const res = await request(server)
         .post("/api/sales")
         .set("x-auth-token", token)
         .send({
           product: ["mango", "banana", "orange"],
-          customer: mkCustomer._id,
+          customer: "shafe",
           quantity: 200,
           amount: 1000,
           transactionType: "cash",
@@ -114,7 +94,7 @@ describe("api/sales", () => {
 
       const sale = await Sale.find({
         product: ["mango", "banana", "orange"],
-        customer: mkCustomer._id,
+        customer: "shafe",
         quantity: 200,
         amount: 1000,
         transactionType: "cash",
@@ -127,21 +107,12 @@ describe("api/sales", () => {
     it("should return the sale if it is valid", async () => {
       const token = new User().generateAuthToken();
 
-      let mkCustomer = new Customer({
-        name: "aaaaa",
-        phoneNumber: 12345678999,
-        address: "a",
-        location: "a",
-      });
-
-      mkCustomer = await mkCustomer.save();
-
       const res = await request(server)
-        .post("/api/sales")
+        .post("/api/sales/")
         .set("x-auth-token", token)
         .send({
           product: ["mango", "banana", "orange"],
-          customer: mkCustomer._id,
+          customer: "shafe",
           quantity: 200,
           amount: 1000,
           transactionType: "cash",
@@ -150,5 +121,9 @@ describe("api/sales", () => {
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("customer", mkCustomer._id);
     });
+  });
+
+  afterAll(async () => {
+    await mongoose.connection.close();
   });
 });

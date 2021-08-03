@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const { Customer } = require("./customers");
 
 const Sale = mongoose.model(
   "Sale",
   new mongoose.Schema({
     customer: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Customer",
-      required: false,
+      type: String,
+      required: true,
     },
     quantity: {
       type: Number,
@@ -31,7 +29,7 @@ const Sale = mongoose.model(
 
 function validateSale(sale) {
   const schema = Joi.object({
-    // customerId: Joi.objectId().required(),
+    customer: Joi.string().required(),
     quantity: Joi.number().integer().required(),
     amount: Joi.number().integer().required(),
     product: Joi.array().items(Joi.string()).required(),
