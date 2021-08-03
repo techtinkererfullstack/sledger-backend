@@ -17,7 +17,10 @@ describe("api/sales", () => {
 
   describe("GET /", () => {
     it("should return all sales", async () => {
-      await Sale.collection.insertMany([{ name: "sales1" }, { name: "sales2" }]);
+      await Sale.collection.insertMany([
+        { name: "sales1" },
+        { name: "sales2" },
+      ]);
 
       const res = await request(server).get("/api/sales");
 
@@ -74,9 +77,12 @@ describe("api/sales", () => {
     it("should return 400 if transaction type is not defined/ if client is logged in", async () => {
       const token = new User().generateAuthToken();
 
-      const res = await request(server).post("/api/sales").set("x-auth-token", token).send({
-        transactionType: "",
-      });
+      const res = await request(server)
+        .post("/api/sales")
+        .set("x-auth-token", token)
+        .send({
+          transactionType: "",
+        });
 
       expect(res.status).toBe(400);
     });
@@ -120,15 +126,15 @@ describe("api/sales", () => {
   describe("POST /", () => {
     it("should return the sale if it is valid", async () => {
       const token = new User().generateAuthToken();
-      
-          const mkCustomer = new Customer({
+
+      let mkCustomer = new Customer({
         name: "aaaaa",
         phoneNumber: 12345678999,
         address: "a",
         location: "a",
       });
 
-      await mkCustomer.save();
+      mkCustomer = await mkCustomer.save();
 
       const res = await request(server)
         .post("/api/sales")
@@ -141,7 +147,6 @@ describe("api/sales", () => {
           transactionType: "cash",
         });
 
-     
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("customer", mkCustomer._id);
     });
