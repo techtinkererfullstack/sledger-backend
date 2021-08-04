@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { Purchase, validate } = require("../model/purchases");
 const { Supplier } = require("../model/suppliers");
-const mongoose = require('mongoose');
-const Fawn = require('fawn');
-
+const mongoose = require("mongoose");
+const Fawn = require("fawn");
 Fawn.init(mongoose);
 
 router.get("/", async (req, res) => {
@@ -17,10 +16,11 @@ router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
 
-  if(!mongoose.Type.ObjectId.isValid(red.body.supplierId)) return res.status(400).send("Invalid supplier Id...")
+  if (!mongoose.Type.ObjectId.isValid(red.body.supplierId))
+    return res.status(400).send("Invalid supplier Id...");
 
-const supplier = await Supplier.findById(req.body.supplierId);
- if (!supplier) return res.status(404).send("supplier id not valid...");
+  const supplier = await Supplier.findById(req.body.supplierId);
+  if (!supplier) return res.status(404).send("supplier id not valid...");
 
   let purchase = new Purchase({
     supplier: {
@@ -34,18 +34,22 @@ const supplier = await Supplier.findById(req.body.supplierId);
     product: req.body.product,
     transactionType: req.body.transactionType,
   });
-  
-  try{
-  new Fawn.Task()
-    .save('purchases', purchase)
-    .update('suppliers', {_id:supplier._id}, {
-      $inc: {reference: +5}
-    }).run()
+
+  try {
+    new Fawn.Task()
+      .save("purchases", purchase)
+      .update(
+        "suppliers",
+        { _id: supplier._id },
+        {
+          $inc: { reference: +5 },
+        }
+      )
+      .run();
+  } catch (ex) {
+    return res.status(500).send("something faild..");
   }
-  catch(ex){
-    return res.status(500).send('something faild..')
-  }
-  
+
   res.send(purchase);
   console.log(purchase);
 });

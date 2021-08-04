@@ -6,10 +6,10 @@ describe("auth middleware", () => {
   it("should populate req.user with payload of a valid jwt", () => {
     const user = {
       _id: mongoose.Types.ObjectId().toHexString(),
-      admin: true,
+      isAdmin: true,
     };
 
-    const token = new User().generateAuthToken();
+    const token = new User(user).generateAuthToken();
 
     const req = {
       header: jest.fn().mockReturnValue(token),

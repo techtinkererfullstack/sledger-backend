@@ -12,6 +12,7 @@ describe("auth middleware", () => {
   afterEach(async () => {
     server.close();
     await User.deleteMany({});
+    await Sale.deleteMany({});
   });
 
   it("should return 401 if if no token is provided", async () => {
@@ -52,7 +53,7 @@ describe("auth middleware", () => {
     expect(res.status).toBe(200);
   });
 
-  afterAll(async () => {
-    await mongoose.connection.close();
-  });
+  //afterAll(async () => {
+  //  await mongoose.connection.close();
+ // });
 });

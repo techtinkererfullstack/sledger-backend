@@ -6,6 +6,7 @@ const suppliers = require("../router/supplier");
 const users = require("../router/user");
 const auths = require("../router/auth");
 const error = require("../middleware/error");
+const purchaseReturn = require("../router/purchaseReturn");
 const express = require("express");
 
 module.exports = function (app) {
@@ -18,5 +19,6 @@ module.exports = function (app) {
   app.use("/api/suppliers", suppliers);
   app.use("/api/users", users);
   app.use("/api/auths", auths);
+  app.use("/api/purchaseReturn", purchaseReturn);
   app.use(error);
 };

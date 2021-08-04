@@ -16,16 +16,28 @@ describe("api/sales", () => {
   describe("GET /", () => {
     it("should return all sales", async () => {
       await Sale.collection.insertMany([
-        { name: "sales1" },
-        { name: "sales2" },
+        {
+          product: ["mango", "banana", "orange"],
+          customer: "Matamorphosis",
+          quantity: 200,
+          amount: 1000000,
+          transactionType: "cash",
+        },
+        {
+          product: ["mango", "banana", "orange"],
+          customer: "next.js",
+          quantity: 200,
+          amount: 100000000,
+          transactionType: "cash",
+        },
       ]);
 
       const res = await request(server).get("/api/sales");
 
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(2);
-      expect(res.body.some((s) => s.name === "sales1")).toBeTruthy();
-      expect(res.body.some((s) => s.name === "sales2")).toBeTruthy();
+      expect(res.body.some((s) => s.customer === "Matamorphosis")).toBeTruthy();
+      expect(res.body.some((s) => s.customer === "next.js")).toBeTruthy();
     });
   });
 
@@ -66,12 +78,13 @@ describe("api/sales", () => {
     it("should return 400 if transaction type is not defined/ if client is logged in", async () => {
       const token = new User().generateAuthToken();
 
-      const res = await request(server)
-        .post("/api/sales")
-        .set("x-auth-token", token)
-        .send({
-          transactionType: "",
-        });
+      const res = await request(server).post("/api/sales").set("x-auth-token", token).send({
+                      product: ["mango", "banana", "orange"],
+                      customer: "shafe",
+                      quantity: 200,
+                      amount: 1000,
+                      transactionType: "",
+                    });
 
       expect(res.status).toBe(400);
     });
@@ -108,7 +121,7 @@ describe("api/sales", () => {
       const token = new User().generateAuthToken();
 
       const res = await request(server)
-        .post("/api/sales/")
+        .post("/api/sales")
         .set("x-auth-token", token)
         .send({
           product: ["mango", "banana", "orange"],
@@ -119,11 +132,11 @@ describe("api/sales", () => {
         });
 
       expect(res.body).toHaveProperty("_id");
-      expect(res.body).toHaveProperty("customer", mkCustomer._id);
+      expect(res.body).toHaveProperty("customer", "shafe");
     });
   });
 
-  afterAll(async () => {
-    await mongoose.connection.close();
-  });
+  // afterAll(async () => {
+  // await mongoose.connection.close();
+  // });
 });
