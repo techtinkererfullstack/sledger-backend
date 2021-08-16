@@ -1,13 +1,13 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
-const { User } = require("../../model/users");
-const { Sale } = require("../../model/sales");
+const { User } = require("../../../model/users");
+const { Sale } = require("../../../model/sales");
 
 let server;
 
 describe("auth middleware", () => {
   beforeEach(() => {
-    server = require("../../index");
+    server = require("../../../index");
   });
   afterEach(async () => {
     server.close();
@@ -55,5 +55,5 @@ describe("auth middleware", () => {
 
   //afterAll(async () => {
   //  await mongoose.connection.close();
- // });
+  // });
 });

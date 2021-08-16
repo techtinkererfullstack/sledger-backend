@@ -1,12 +1,12 @@
 const request = require("supertest");
-const { Sale } = require("../../model/sales");
+const { Sale } = require("../../../model/sales");
 const mongoose = require("mongoose");
-const { User } = require("../../model/users");
+const { User } = require("../../../model/users");
 let server;
 
 describe("api/sales", () => {
   beforeEach(() => {
-    server = require("../../index");
+    server = require("../../../index");
   });
   afterEach(async () => {
     server.close();
@@ -78,13 +78,16 @@ describe("api/sales", () => {
     it("should return 400 if transaction type is not defined/ if client is logged in", async () => {
       const token = new User().generateAuthToken();
 
-      const res = await request(server).post("/api/sales").set("x-auth-token", token).send({
-                      product: ["mango", "banana", "orange"],
-                      customer: "shafe",
-                      quantity: 200,
-                      amount: 1000,
-                      transactionType: "",
-                    });
+      const res = await request(server)
+        .post("/api/sales")
+        .set("x-auth-token", token)
+        .send({
+          product: ["mango", "banana", "orange"],
+          customer: "shafe",
+          quantity: 200,
+          amount: 1000,
+          transactionType: "",
+        });
 
       expect(res.status).toBe(400);
     });
@@ -136,7 +139,23 @@ describe("api/sales", () => {
     });
   });
 
-  // afterAll(async () => {
-  // await mongoose.connection.close();
-  // });
+  describe("PUT /", () => {
+    it("should return the sale if it is valid", async () => {
+      const token = new User().generateAuthToken();
+
+      const res = await request(server)
+        .post("/api/sales")
+        .set("x-auth-token", token)
+        .send({
+          product: ["mango", "banana", "orange"],
+          customer: "shafe",
+          quantity: 200,
+          amount: 1000,
+          transactionType: "cash",
+        });
+
+      expect(res.body).toHaveProperty("_id");
+      expect(res.body).toHaveProperty("customer", "shafe");
+    });
+  });
 });

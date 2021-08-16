@@ -36,6 +36,12 @@ const Purchase = mongoose.model(
       type: String,
       enum: ["cash", "credit"],
     },
+    dateReturned: {
+      type: Date,
+    },
+    lastPaymentDate: {
+      type: Date,
+    },
   })
 );
 

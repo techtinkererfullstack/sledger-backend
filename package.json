@@ -4,22 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --testEnvironment=node --verbose --coverage"
+    "test": "jest --watchAll --verbose",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "14.15.4"
   },
   "keywords": [],
   "author": "shafe",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "config": "^1.29.4",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "fawn": "^2.1.5",
+    "helmet": "^4.6.0",
     "joi": "^17.4.1",
     "joi-objectid": "^3.0.1",
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "mongodb": "^3.6.10",
     "mongoose": "^5.13.2",
     "nodemon": "^2.0.12",
@@ -27,7 +34,6 @@
     "winston-mongodb": "^3.0.0"
   },
   "devDependencies": {
-    "handlebars": "^4.5.0",
     "jest": "^23.6.0",
     "supertest": "^3.0.0"
   }
